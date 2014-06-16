@@ -42,8 +42,7 @@ class AnnularProgress: UIView {
     
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect)
-    {
+    override func drawRect(rect: CGRect) {
         // Drawing code
         // draw annular background color
         var lineWidth = self.outerRadius - self.innerRadius;
@@ -68,6 +67,16 @@ class AnnularProgress: UIView {
         processPath.addArcWithCenter(centerPoint, radius:radius, startAngle:startAngle, endAngle:endAngle, clockwise:true);
         UIColor.whiteColor().set();
         processPath.stroke();
+    }
+    
+    override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObject!, change: NSDictionary!, context: CMutableVoidPointer) {
+        //
+        self.setNeedsDisplay();
+    }
+    
+    override func didMoveToSuperview() {
+        addObserver(self, forKeyPath: "currentValue", options: NSKeyValueObservingOptions.New|NSKeyValueObservingOptions.Old , context: nil);
+        addObserver(self, forKeyPath: "maxValue", options: NSKeyValueObservingOptions.New|NSKeyValueObservingOptions.Old, context: nil);
     }
 
 }

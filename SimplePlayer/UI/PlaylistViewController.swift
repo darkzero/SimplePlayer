@@ -3,16 +3,31 @@
 //  SimplePlayer
 //
 //  Created by darkzero on 14-6-11.
-//  Copyright (c) 2014年 darkzero. All rights reserved.
+//  Copyright (c) 2014 darkzero. All rights reserved.
 //
 
 import UIKit
+import MediaPlayer
 
-class PlaylistViewController: UIViewController {
+class PlaylistViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    @IBOutlet var songsTable : UITableView;
+    var songsList:NSMutableArray;
 
     init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        self.songsList = MusicLibrary.defaultPlayer().getAlliPodSongs();
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        //self.songsTable.delegate = self;
+        //self.songsTable.dataSource = self;
         // Custom initialization
+    }
+    
+    init(coder aDecoder: NSCoder!) {
+        self.songsList = MusicLibrary.defaultPlayer().getAlliPodSongs();
+        NSLog("song is %d", self.songsList.count);
+        super.init(coder: aDecoder)
+        //self.songsTable.delegate = self;
+        //self.songsTable.dataSource = self;
     }
 
     override func viewDidLoad() {
@@ -26,6 +41,10 @@ class PlaylistViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated);
+        //self.songsTable.reloadData();
+    }
 
     /*
     // #pragma mark - Navigation
@@ -36,5 +55,38 @@ class PlaylistViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+
+    // #pragma mark - Navigation
+    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+        NSLog("row count is %d", self.songsList.count);
+        return self.songsList.count;
+    }
+
+    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+        
+        NSLog("now on row %d", indexPath.row);
+        let cellIdentifier = "SongCell"
+        
+        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell;
+        
+        if  !cell {
+            cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: cellIdentifier);
+        }
+        
+        cell!.textLabel.text = self.songsList[indexPath.row].title;
+        
+        return cell;
+    }
+    
+    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+        var mediaItem:MPMediaItem = self.songsList[indexPath.row] as MPMediaItem;
+        
+        var player = MusicPlayer.defaultPlayer();
+        player.player.setQueueWithItemCollection(MPMediaItemCollection(items:self.songsList));
+        player.player.nowPlayingItem = mediaItem;
+        player.player.play();
+        
+        self.dismissModalViewControllerAnimated(true);
+    }
 
 }

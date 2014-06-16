@@ -16,6 +16,10 @@
 		EF4EC2301947604800C5E85C /* PlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4EC22F1947604800C5E85C /* PlaylistViewController.swift */; };
 		EF4EC2321947605400C5E85C /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4EC2311947605400C5E85C /* SettingViewController.swift */; };
 		EF4EC2351947749200C5E85C /* AnnularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4EC2341947749200C5E85C /* AnnularProgress.swift */; };
+		F7026E48194ECA890093C62E /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7026E47194ECA890093C62E /* MusicPlayer.swift */; };
+		F7026E4A194ECAD10093C62E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7026E49194ECAD10093C62E /* AVFoundation.framework */; };
+		F7026E4C194ECADB0093C62E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7026E4B194ECADB0093C62E /* MediaPlayer.framework */; };
+		F7026E4E194EDAD10093C62E /* MusicLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7026E4D194EDAD10093C62E /* MusicLibrary.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +46,10 @@
 		EF4EC22F1947604800C5E85C /* PlaylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistViewController.swift; sourceTree = "<group>"; };
 		EF4EC2311947605400C5E85C /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		EF4EC2341947749200C5E85C /* AnnularProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnularProgress.swift; sourceTree = "<group>"; };
+		F7026E47194ECA890093C62E /* MusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
+		F7026E49194ECAD10093C62E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		F7026E4B194ECADB0093C62E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		F7026E4D194EDAD10093C62E /* MusicLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicLibrary.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7026E4C194ECADB0093C62E /* MediaPlayer.framework in Frameworks */,
+				F7026E4A194ECAD10093C62E /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +75,8 @@
 		EF4EC1FF19475C4600C5E85C = {
 			isa = PBXGroup;
 			children = (
+				F7026E4B194ECADB0093C62E /* MediaPlayer.framework */,
+				F7026E49194ECAD10093C62E /* AVFoundation.framework */,
 				EF4EC20A19475C4600C5E85C /* SimplePlayer */,
 				EF4EC21D19475C4600C5E85C /* SimplePlayerTests */,
 				EF4EC20919475C4600C5E85C /* Products */,
@@ -121,6 +133,7 @@
 		EF4EC22C1947602F00C5E85C /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				F7026E46194ECA630093C62E /* Player */,
 				EF4EC2331947746200C5E85C /* CustomController */,
 				EF4EC22D1947603B00C5E85C /* MainViewController.swift */,
 				EF4EC22F1947604800C5E85C /* PlaylistViewController.swift */,
@@ -136,6 +149,16 @@
 			);
 			path = CustomController;
 			sourceTree = "<group>";
+		};
+		F7026E46194ECA630093C62E /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				F7026E47194ECA890093C62E /* MusicPlayer.swift */,
+				F7026E4D194EDAD10093C62E /* MusicLibrary.swift */,
+			);
+			name = Player;
+			path = SimplePlayer/Player;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -239,7 +262,9 @@
 				EF4EC2321947605400C5E85C /* SettingViewController.swift in Sources */,
 				EF4EC2301947604800C5E85C /* PlaylistViewController.swift in Sources */,
 				EF4EC22E1947603B00C5E85C /* MainViewController.swift in Sources */,
+				F7026E4E194EDAD10093C62E /* MusicLibrary.swift in Sources */,
 				EF4EC21019475C4600C5E85C /* ViewController.swift in Sources */,
+				F7026E48194ECA890093C62E /* MusicPlayer.swift in Sources */,
 				EF4EC2351947749200C5E85C /* AnnularProgress.swift in Sources */,
 				EF4EC20E19475C4600C5E85C /* AppDelegate.swift in Sources */,
 			);

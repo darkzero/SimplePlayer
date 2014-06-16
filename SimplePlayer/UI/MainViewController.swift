@@ -3,7 +3,7 @@
 //  SimplePlayer
 //
 //  Created by darkzero on 14-6-11.
-//  Copyright (c) 2014年 darkzero. All rights reserved.
+//  Copyright (c) 2014 darkzero. All rights reserved.
 //
 
 import UIKit
@@ -17,18 +17,17 @@ class MainViewController: UIViewController {
         // Custom initialization
     }
     
-    init(coder aDecoder: NSCoder!)
-    {
+    init(coder aDecoder: NSCoder!) {
         super.init(coder: aDecoder)
     }
 
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad();
 
         // Do any additional setup after loading the view.
         songNameLabel.text = "test";
         
-        var progress : AnnularProgress = AnnularProgress(outerRadius: 100.0, innerRadius: 50.0);
+        var progress : AnnularProgress = AnnularProgress(outerRadius: 100.0, innerRadius: 96.0);
         self.view.addSubview(progress);
         
         progress.maxValue       = 100.0;
