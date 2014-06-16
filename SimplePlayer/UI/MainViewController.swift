@@ -32,6 +32,8 @@ class MainViewController: UIViewController {
         
         progress.maxValue       = 100.0;
         progress.currentValue   = 40.0;
+        
+        var player = MusicPlayer.defaultPlayer();
     }
 
     override func didReceiveMemoryWarning() {

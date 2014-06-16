@@ -30,7 +30,16 @@ class MusicLibrary: NSObject {
     
     // get playlist
     func getiPodPlaylists() -> NSMutableArray {
-        return [];
+        var result:NSMutableArray = NSMutableArray.array();
+        
+        var playlistQuery:MPMediaQuery = MPMediaQuery.playlistsQuery();
+        playlistQuery.groupingType = MPMediaGrouping.Playlist;
+        result.addObjectsFromArray(playlistQuery.collections);//MPMediaItemCollection
+        
+        //NSLog("playlist items count %d", playlistQuery.items.count)
+        NSLog("playlist collections count %d", playlistQuery.collections[0].representativeItem)
+        
+        return result;
     }
     
     // get artists list

@@ -77,22 +77,31 @@ class MusicPlayer: NSObject {
     }
     
     func registeriPodPlayerNotifications() {
-        var notiCenter:NSNotificationCenter = NSNotificationCenter.defaultCenter();
+        let notiCenter:NSNotificationCenter = NSNotificationCenter.defaultCenter();
         notiCenter.addObserver(self,
-            selector: "onRecivePlaybackStateDidChangeNotification",
+            selector: "onRecivePlaybackStateDidChangeNotification:",
             name    : MPMusicPlayerControllerPlaybackStateDidChangeNotification,
             object  : nil);
         notiCenter.addObserver(self,
-            selector: "onReciveNowPlayingItemDidChangeNotification",
+            selector: "onReciveNowPlayingItemDidChangeNotification:",
             name    : MPMusicPlayerControllerNowPlayingItemDidChangeNotification,
             object  : nil);
         notiCenter.addObserver(self,
-            selector: "onReciveVolumeDidChangeNotification",
+            selector: "onReciveVolumeDidChangeNotification:",
             name    : MPMusicPlayerControllerVolumeDidChangeNotification,
             object  : nil);
+        
+//        let mainQueue = NSOperationQueue.mainQueue();
+//        var observer = notiCenter.addObserverForName(MPMusicPlayerControllerPlaybackStateDidChangeNotification, object: nil, queue: mainQueue) { _ in
+//            NSLog("noti %@", "aaaaa");
+//        }
     }
     
     func onRecivePlaybackStateDidChangeNotification(noti:NSNotification) {
-        NSLog("%@", noti.name);
+        NSLog("noti %@", noti.name);
+    }
+    
+    func onReciveNowPlayingItemDidChangeNotification(noti:NSNotification) {
+        NSLog("noti %@", noti.name);
     }
 }

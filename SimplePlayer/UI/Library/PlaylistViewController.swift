@@ -12,16 +12,16 @@ import MediaPlayer
 class PlaylistViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var songsTable : UITableView;
-    var songsList:NSMutableArray;
+    var playlistList:NSMutableArray;
 
     init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        self.songsList = MusicLibrary.defaultPlayer().getAlliPodSongs();
+        self.playlistList = MusicLibrary.defaultPlayer().getiPodPlaylists();
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
     }
     
     init(coder aDecoder: NSCoder!) {
-        self.songsList = MusicLibrary.defaultPlayer().getAlliPodSongs();
+        self.playlistList = MusicLibrary.defaultPlayer().getiPodPlaylists();
         super.init(coder: aDecoder)
     }
 
@@ -53,7 +53,7 @@ class PlaylistViewController: UIViewController, UITableViewDataSource, UITableVi
 
     // #pragma mark - Navigation
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        return self.songsList.count;
+        return self.playlistList.count;
     }
 
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
@@ -65,18 +65,20 @@ class PlaylistViewController: UIViewController, UITableViewDataSource, UITableVi
             cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: cellIdentifier);
         }
         
-        cell!.textLabel.text = self.songsList[indexPath.row].title;
+        cell!.textLabel.text = "a"//self.playlistList[indexPath.row].representativeItem;
+        
+        //NSLog("%@", self.playlistList[indexPath.row]);
         
         return cell;
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-        var mediaItem:MPMediaItem = self.songsList[indexPath.row] as MPMediaItem;
+        var mediaItem:MPMediaItem = self.playlistList[indexPath.row] as MPMediaItem;
         
-        var player = MusicPlayer.defaultPlayer();
-        player.player.setQueueWithItemCollection(MPMediaItemCollection(items:self.songsList));
-        player.player.nowPlayingItem = mediaItem;
-        player.player.play();
+//        var player = MusicPlayer.defaultPlayer();
+//        player.player.setQueueWithItemCollection(MPMediaItemCollection(items:self.getiPodPlaylists));
+//        player.player.nowPlayingItem = mediaItem;
+//        player.player.play();
         
         self.dismissModalViewControllerAnimated(true);
     }
