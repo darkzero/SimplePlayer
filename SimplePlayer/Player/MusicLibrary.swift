@@ -28,6 +28,30 @@ class MusicLibrary: NSObject {
         return Static.instance!
     }
     
+    // get playlist
+    func getiPodPlaylists() -> NSMutableArray {
+        return [];
+    }
+    
+    // get artists list
+    func getiPodArtists() -> NSMutableArray {
+        var result:NSMutableArray = NSMutableArray.array();
+        
+        var artistsQuery:MPMediaQuery = MPMediaQuery.artistsQuery();
+        artistsQuery.groupingType = MPMediaGrouping.AlbumArtist;
+        result.addObjectsFromArray(artistsQuery.collections);
+        
+        return result;
+    }
+    
+    // get albums list
+    func getiPodAlbums() -> NSMutableArray {
+        var result:NSMutableArray = NSMutableArray.array();
+        
+        return result;
+    }
+    
+    //
     func getAlliPodSongs() -> NSMutableArray {
         var result:NSMutableArray = NSMutableArray.array();
         
@@ -46,8 +70,4 @@ class MusicLibrary: NSObject {
         
         return result;
     }
-    
-//    func getiPodPlaylists() -> NSDictoray {
-//        
-//    }
 }

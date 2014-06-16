@@ -13,13 +13,14 @@
 		EF4EC21519475C4600C5E85C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF4EC21419475C4600C5E85C /* Images.xcassets */; };
 		EF4EC22119475C4600C5E85C /* SimplePlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4EC22019475C4600C5E85C /* SimplePlayerTests.swift */; };
 		EF4EC22E1947603B00C5E85C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4EC22D1947603B00C5E85C /* MainViewController.swift */; };
-		EF4EC2301947604800C5E85C /* PlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4EC22F1947604800C5E85C /* PlaylistViewController.swift */; };
 		EF4EC2321947605400C5E85C /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4EC2311947605400C5E85C /* SettingViewController.swift */; };
 		EF4EC2351947749200C5E85C /* AnnularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4EC2341947749200C5E85C /* AnnularProgress.swift */; };
 		F7026E48194ECA890093C62E /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7026E47194ECA890093C62E /* MusicPlayer.swift */; };
 		F7026E4A194ECAD10093C62E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7026E49194ECAD10093C62E /* AVFoundation.framework */; };
 		F7026E4C194ECADB0093C62E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7026E4B194ECADB0093C62E /* MediaPlayer.framework */; };
 		F7026E4E194EDAD10093C62E /* MusicLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7026E4D194EDAD10093C62E /* MusicLibrary.swift */; };
+		F78F6269194F27DC001AF5BC /* PlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78F6268194F27DC001AF5BC /* PlaylistViewController.swift */; };
+		F78F626B194F280E001AF5BC /* ArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78F626A194F280E001AF5BC /* ArtistViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,13 +44,14 @@
 		EF4EC21F19475C4600C5E85C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF4EC22019475C4600C5E85C /* SimplePlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePlayerTests.swift; sourceTree = "<group>"; };
 		EF4EC22D1947603B00C5E85C /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		EF4EC22F1947604800C5E85C /* PlaylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistViewController.swift; sourceTree = "<group>"; };
 		EF4EC2311947605400C5E85C /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		EF4EC2341947749200C5E85C /* AnnularProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnularProgress.swift; sourceTree = "<group>"; };
 		F7026E47194ECA890093C62E /* MusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		F7026E49194ECAD10093C62E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F7026E4B194ECADB0093C62E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		F7026E4D194EDAD10093C62E /* MusicLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicLibrary.swift; sourceTree = "<group>"; };
+		F78F6268194F27DC001AF5BC /* PlaylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistViewController.swift; sourceTree = "<group>"; };
+		F78F626A194F280E001AF5BC /* ArtistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,10 +135,10 @@
 		EF4EC22C1947602F00C5E85C /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				F78F6267194F27DC001AF5BC /* Library */,
 				F7026E46194ECA630093C62E /* Player */,
 				EF4EC2331947746200C5E85C /* CustomController */,
 				EF4EC22D1947603B00C5E85C /* MainViewController.swift */,
-				EF4EC22F1947604800C5E85C /* PlaylistViewController.swift */,
 				EF4EC2311947605400C5E85C /* SettingViewController.swift */,
 			);
 			path = UI;
@@ -159,6 +161,15 @@
 			name = Player;
 			path = SimplePlayer/Player;
 			sourceTree = SOURCE_ROOT;
+		};
+		F78F6267194F27DC001AF5BC /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				F78F6268194F27DC001AF5BC /* PlaylistViewController.swift */,
+				F78F626A194F280E001AF5BC /* ArtistViewController.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -260,10 +271,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF4EC2321947605400C5E85C /* SettingViewController.swift in Sources */,
-				EF4EC2301947604800C5E85C /* PlaylistViewController.swift in Sources */,
 				EF4EC22E1947603B00C5E85C /* MainViewController.swift in Sources */,
+				F78F626B194F280E001AF5BC /* ArtistViewController.swift in Sources */,
 				F7026E4E194EDAD10093C62E /* MusicLibrary.swift in Sources */,
 				EF4EC21019475C4600C5E85C /* ViewController.swift in Sources */,
+				F78F6269194F27DC001AF5BC /* PlaylistViewController.swift in Sources */,
 				F7026E48194ECA890093C62E /* MusicPlayer.swift in Sources */,
 				EF4EC2351947749200C5E85C /* AnnularProgress.swift in Sources */,
 				EF4EC20E19475C4600C5E85C /* AppDelegate.swift in Sources */,

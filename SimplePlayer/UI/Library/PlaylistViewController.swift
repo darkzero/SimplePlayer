@@ -17,17 +17,12 @@ class PlaylistViewController: UIViewController, UITableViewDataSource, UITableVi
     init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         self.songsList = MusicLibrary.defaultPlayer().getAlliPodSongs();
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        //self.songsTable.delegate = self;
-        //self.songsTable.dataSource = self;
         // Custom initialization
     }
     
     init(coder aDecoder: NSCoder!) {
         self.songsList = MusicLibrary.defaultPlayer().getAlliPodSongs();
-        NSLog("song is %d", self.songsList.count);
         super.init(coder: aDecoder)
-        //self.songsTable.delegate = self;
-        //self.songsTable.dataSource = self;
     }
 
     override func viewDidLoad() {
@@ -58,13 +53,10 @@ class PlaylistViewController: UIViewController, UITableViewDataSource, UITableVi
 
     // #pragma mark - Navigation
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        NSLog("row count is %d", self.songsList.count);
         return self.songsList.count;
     }
 
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        
-        NSLog("now on row %d", indexPath.row);
         let cellIdentifier = "SongCell"
         
         var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell;
