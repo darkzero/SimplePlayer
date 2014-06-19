@@ -54,13 +54,17 @@ class MusicPlayer: NSObject {
     var repeat      = RepeatType.Off;
     var shuffle     = ShuffleMode.Off;
     
-    var player:MPMusicPlayerController;
+    var player:MPMusicPlayerController = MPMusicPlayerController.iPodMusicPlayer();
     
     @required init() {
-        self.player = MPMusicPlayerController.iPodMusicPlayer();
         super.init();
-        
+        // add notifications lisener
+        self.player.beginGeneratingPlaybackNotifications();
         self.registeriPodPlayerNotifications();
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self);
     }
     
     class func defaultPlayer() -> MusicPlayer {
@@ -81,7 +85,7 @@ class MusicPlayer: NSObject {
         notiCenter.addObserver(self,
             selector: "onRecivePlaybackStateDidChangeNotification:",
             name    : MPMusicPlayerControllerPlaybackStateDidChangeNotification,
-            object  : nil);
+            object  : player);
         notiCenter.addObserver(self,
             selector: "onReciveNowPlayingItemDidChangeNotification:",
             name    : MPMusicPlayerControllerNowPlayingItemDidChangeNotification,
@@ -90,18 +94,31 @@ class MusicPlayer: NSObject {
             selector: "onReciveVolumeDidChangeNotification:",
             name    : MPMusicPlayerControllerVolumeDidChangeNotification,
             object  : nil);
-        
-//        let mainQueue = NSOperationQueue.mainQueue();
-//        var observer = notiCenter.addObserverForName(MPMusicPlayerControllerPlaybackStateDidChangeNotification, object: nil, queue: mainQueue) { _ in
-//            NSLog("noti %@", "aaaaa");
-//        }
     }
     
+    var currentPlaybackTime : CGFloat {
+        get { return CGFloat(self.player.currentPlaybackTime); }
+    }
+    
+    var playbackDuration : CGFloat {
+        get { return CGFloat(self.player.nowPlayingItem.playbackDuration); }
+    }
+    
+    // on playback state changed
     func onRecivePlaybackStateDidChangeNotification(noti:NSNotification) {
         NSLog("noti %@", noti.name);
+        NSNotificationCenter.defaultCenter().postNotificationName("needRefreshPlayerViewNotification", object: self);
     }
     
+    // on playing item changed
     func onReciveNowPlayingItemDidChangeNotification(noti:NSNotification) {
         NSLog("noti %@", noti.name);
+        NSNotificationCenter.defaultCenter().postNotificationName("needRefreshPlayerViewNotification", object: self);
+    }
+    
+    // on volume changed
+    func onReciveVolumeDidChangeNotification(noti:NSNotification) {
+        NSLog("noti %@", noti.name);
+        NSNotificationCenter.defaultCenter().postNotificationName("needRefreshPlayerViewNotification", object: self);
     }
 }

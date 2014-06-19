@@ -7,17 +7,30 @@
 //
 
 import UIKit
+import MediaPlayer
 
 class MainViewController: UIViewController {
     
     @IBOutlet var songNameLabel : UILabel;
+    @IBOutlet var artistNameLabel : UILabel;
+    @IBOutlet var songImgBgView : UIView;
+    @IBOutlet var songImgView : UIImageView;
+    @IBOutlet var playPauseButton : UIButton;
+    @IBOutlet var nextButton : UIButton;
+    @IBOutlet var prevButton : UIButton;
+    @IBOutlet var timeLabel : UILabel;
+    @IBOutlet var songsCountLabel : UILabel;
+    
+    var progress:AnnularProgress;
 
     init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        self.progress = AnnularProgress(outerRadius: 120.0, innerRadius: 116.0);
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
     }
     
     init(coder aDecoder: NSCoder!) {
+        self.progress = AnnularProgress(outerRadius: 125.0, innerRadius: 119.0);
         super.init(coder: aDecoder)
     }
 
@@ -27,13 +40,31 @@ class MainViewController: UIViewController {
         // Do any additional setup after loading the view.
         songNameLabel.text = "test";
         
-        var progress : AnnularProgress = AnnularProgress(outerRadius: 100.0, innerRadius: 96.0);
         self.view.addSubview(progress);
         
-        progress.maxValue       = 100.0;
-        progress.currentValue   = 40.0;
+        self.progress.center        = self.songImgBgView.center;
+        self.progress.maxValue      = 100.0;
+        self.progress.currentValue  = 40.0;
         
         var player = MusicPlayer.defaultPlayer();
+        
+        let notiCenter:NSNotificationCenter = NSNotificationCenter.defaultCenter();
+        notiCenter.addObserver(self,
+            selector: "onReciveRefreshNotification:",
+            name    : "needRefreshPlayerViewNotification",
+            object  : nil);
+        
+        // round image background
+        self.songImgBgView.layer.cornerRadius = songImgBgView.frame.size.width/2;
+        self.songImgView.layer.cornerRadius = 100.0;
+        
+        // round buttons
+        self.playPauseButton.layer.cornerRadius = self.playPauseButton.frame.size.width/2;
+        self.nextButton.layer.cornerRadius = self.nextButton.frame.size.width/2;
+        self.prevButton.layer.cornerRadius = self.prevButton.frame.size.width/2;
+        
+        // start progress timer
+        var progressTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "updateProgress", userInfo: nil, repeats: true);
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,6 +82,59 @@ class MainViewController: UIViewController {
     }
     */
     
+    @IBAction func onPlayPauseButtonClicked(sender:UIButton) {
+        if ( MusicPlayer.defaultPlayer().player.playbackState == MPMusicPlaybackState.Playing ) {
+            MusicPlayer.defaultPlayer().player.pause();
+        }
+        else {
+            MusicPlayer.defaultPlayer().player.play();
+        }
+    }
+    
+    @IBAction func onNextButtonClicked(sender:UIButton) {
+        MusicPlayer.defaultPlayer().player.skipToNextItem();
+    }
+    
+    @IBAction func onPrevButtonClicked(sender:UIButton) {
+        MusicPlayer.defaultPlayer().player.skipToPreviousItem();
+    }
+    
+    func updateProgress() {
+        self.progress.currentValue   = MusicPlayer.defaultPlayer().currentPlaybackTime;
+        // time label
+        var currectTime = UInt(MusicPlayer.defaultPlayer().currentPlaybackTime);
+        var duration = UInt(MusicPlayer.defaultPlayer().playbackDuration);
+        self.timeLabel.text = changeSecToMin(currectTime) + "/" + changeSecToMin(duration);
+    }
+    
+    func changeSecToMin(second:UInt) -> NSString {
+        var min = second/60;
+        var sec = second%60;
+        
+        var minStr = format(min, f: "02");
+        var secStr = format(sec, f: "02");
+        
+        return minStr + ":" + secStr;
+    }
+    
+    func format(num:UInt, f: String) -> String {
+        return NSString(format: "%\(f)d", num);
+    }
+    
     //
+    func onReciveRefreshNotification(noti:NSNotification) {
+        self.progress.maxValue       = MusicPlayer.defaultPlayer().playbackDuration;
+        self.progress.currentValue   = MusicPlayer.defaultPlayer().currentPlaybackTime;
+        
+        self.songNameLabel.text = MusicPlayer.defaultPlayer().player.nowPlayingItem.title;
+        self.artistNameLabel.text = MusicPlayer.defaultPlayer().player.nowPlayingItem.artist;
+        
+        // image
+        self.songImgView.clipsToBounds = true;
+        self.songImgView.contentMode = UIViewContentMode.ScaleAspectFit;
+        var img = MusicPlayer.defaultPlayer().player.nowPlayingItem.artwork.imageWithSize(CGSizeMake(200, 200));
+        self.songImgView.image = img
+        self.songImgView.frame.size = CGSizeMake(200, 200);
+    }
 
 }

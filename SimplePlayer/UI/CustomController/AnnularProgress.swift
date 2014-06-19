@@ -3,7 +3,7 @@
 //  SimplePlayer
 //
 //  Created by darkzero on 14-6-11.
-//  Copyright (c) 2014年 darkzero. All rights reserved.
+//  Copyright (c) 2014 darkzero. All rights reserved.
 //
 
 import UIKit
@@ -27,13 +27,13 @@ class AnnularProgress: UIView {
     
     //
     init(outerRadius:CGFloat, innerRadius:CGFloat) {
-        let frame:CGRect = CGRectMake(50, 100, outerRadius * 2.0, outerRadius * 2.0);
+        let frame:CGRect = CGRectMake(0, 0, outerRadius * 2.0, outerRadius * 2.0);
         super.init(frame: frame);
         
         self.outerRadius = outerRadius;
         self.innerRadius = innerRadius;
         
-        self.backgroundColor = UIColor.whiteColor();
+        self.backgroundColor = UIColor.clearColor();
         
         //println("Search iTunes API at URL \(outerRadius)")
         NSLog("%f", self.outerRadius);
@@ -55,7 +55,7 @@ class AnnularProgress: UIView {
         var startAngle:CGFloat  = ((self.currentValue/self.maxValue) * 2 * pi) - (pi / 2.0);
         var endAngle:CGFloat    = (2 * pi) - (pi / 2);// + startAngle;
         processBackgroundPath.addArcWithCenter(centerPoint, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true);
-        UIColor.redColor().set();
+        UIColor.whiteColor().set();
         processBackgroundPath.stroke();
         
         // draw progress
@@ -65,7 +65,7 @@ class AnnularProgress: UIView {
         startAngle = -1 * (pi / 2);
         endAngle = ((self.currentValue/self.maxValue) * 2 * pi) + startAngle;
         processPath.addArcWithCenter(centerPoint, radius:radius, startAngle:startAngle, endAngle:endAngle, clockwise:true);
-        UIColor.whiteColor().set();
+        UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1.0).set();
         processPath.stroke();
     }
     
