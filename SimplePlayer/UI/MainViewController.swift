@@ -19,7 +19,7 @@ class MainViewController: UIViewController {
     @IBOutlet var nextButton : UIButton;
     @IBOutlet var prevButton : UIButton;
     @IBOutlet var timeLabel : UILabel;
-    @IBOutlet var songsCountLabel : UILabel;
+    @IBOutlet var volumeLabel : UILabel;
     
     var progress:AnnularProgress;
 
@@ -65,6 +65,11 @@ class MainViewController: UIViewController {
         
         // start progress timer
         var progressTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "updateProgress", userInfo: nil, repeats: true);
+        
+        // songs count
+        self.volumeLabel.text = "V:\(Int(MusicPlayer.defaultPlayer().player.volume*100))";
+        
+        // volume bar
     }
 
     override func didReceiveMemoryWarning() {
@@ -97,6 +102,9 @@ class MainViewController: UIViewController {
     
     @IBAction func onPrevButtonClicked(sender:UIButton) {
         MusicPlayer.defaultPlayer().player.skipToPreviousItem();
+    }
+    
+    func drawVolumeBar() {
     }
     
     func updateProgress() {
@@ -135,6 +143,9 @@ class MainViewController: UIViewController {
         var img = MusicPlayer.defaultPlayer().player.nowPlayingItem.artwork.imageWithSize(CGSizeMake(200, 200));
         self.songImgView.image = img
         self.songImgView.frame.size = CGSizeMake(200, 200);
+        
+        // volume
+        self.volumeLabel.text = "V:\(Int(MusicPlayer.defaultPlayer().player.volume*100))";
     }
 
 }
