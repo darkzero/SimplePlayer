@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, ButtonMenuDelegate {
     
     @IBOutlet var songNameLabel : UILabel;
     @IBOutlet var artistNameLabel : UILabel;
@@ -69,7 +69,17 @@ class MainViewController: UIViewController {
         // songs count
         self.volumeLabel.text = "V:\(Int(MusicPlayer.defaultPlayer().player.volume*100))";
         
-        // volume bar
+        // repeat mode buttons
+        var repeatMenuButton = ButtonMenu(Location: ButtonMenuLocation.LeftBottom, Direction:ButtonMenuDirection.Right, CloseImage:"", OpenImage:"", TitleArray:["One", "All", "Off"]);
+        self.view.addSubview(repeatMenuButton);
+        repeatMenuButton.delegate = self;
+        repeatMenuButton.frame = repeatMenuButton.getFrameWithLocation(repeatMenuButton.location);
+        
+        // shuffle mode buttons
+        var shuffleMenuButton = ButtonMenu(Location: ButtonMenuLocation.RightBottom, Direction:ButtonMenuDirection.Up, CloseImage:"", OpenImage:"", TitleArray:["On", "Off"]);
+        self.view.addSubview(shuffleMenuButton);
+        shuffleMenuButton.delegate = self;
+        shuffleMenuButton.frame = shuffleMenuButton.getFrameWithLocation(shuffleMenuButton.location);
     }
 
     override func didReceiveMemoryWarning() {
@@ -147,5 +157,9 @@ class MainViewController: UIViewController {
         // volume
         self.volumeLabel.text = "V:\(Int(MusicPlayer.defaultPlayer().player.volume*100))";
     }
-
+    
+    func buttonMenu(buttonMenu:ButtonMenu, clickedButtonIndex index:Int) {
+        // nothing
+        NSLog("\(index)");
+    }
 }

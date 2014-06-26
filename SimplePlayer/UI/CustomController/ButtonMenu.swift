@@ -26,7 +26,7 @@ enum ButtonMenuDirection {
 }
 
 protocol ButtonMenuDelegate : NSObjectProtocol {
-    func buttonMenu(buttonMenu: ButtonMenu!, clickedButtonIndex index: Int!);
+    func buttonMenu(buttonMenu: ButtonMenu, clickedButtonIndex index: Int);
 }
 
 class ButtonMenu: UIView {
@@ -50,38 +50,40 @@ class ButtonMenu: UIView {
 //        // Initialization code
     //    }
     
-    init(location:ButtonMenuLocation, Direction direction:ButtonMenuDirection, CloseImage closeImage:NSString, OpenImage openImage:NSString!, TitleArray titleArray:NSArray) {
+    init(Location _location:ButtonMenuLocation, Direction _direction:ButtonMenuDirection, CloseImage _closeImage:NSString, OpenImage _openImage:NSString, TitleArray _titleArray:NSArray) {
         // init with parameter
         super.init(frame:CGRect.zeroRect);
-        self.frame = getFrameWithLocation(location);
+        //self.frame = getFrameWithLocation(location);
         self.backgroundColor = UIColor.clearColor();
         
-        self.location = location;
-        self.direction = direction;
-        self.closeImage = closeImage;
-        if ( openImage != nil ) {
-            self.openImage = openImage;
+        self.location = _location;
+        self.direction = _direction;
+        self.closeImage = _closeImage;
+        if ( _openImage != nil ) {
+            self.openImage = _openImage;
         }
         else {
-            self.openImage = closeImage;
+            self.openImage = _closeImage;
         }
         
-        self.buttonCount = titleArray.count;
+        self.buttonCount = _titleArray.count;
         
         // create buttons
-        for var i = 0 ; i < titleArray.count ; i++ {
-            var s:NSString      = titleArray[i] as NSString;
+        for var i = 0 ; i < _titleArray.count ; i++ {
+            var s:NSString      = _titleArray[i] as NSString;
             var btn:UIButton    = UIButton.buttonWithType(UIButtonType.Custom) as UIButton;
             btn.frame = CGRectMake(0, 0, BUTTON_DIAMETER, BUTTON_DIAMETER);
             btn.backgroundColor = UIColor(red: 47.0/255.0, green: 47.0/255.0, blue: 47.0/255.0, alpha: 0.6);
             btn.setTitle(s, forState: UIControlState.Normal);
             btn.layer.cornerRadius = BUTTON_DIAMETER/2;
-            btn.tag = 10000+i;
+            btn.tag = 10000+i+1;
             btn.alpha = 0.0;
             self.addSubview(btn);
             
             btn.addTarget(self, action: "buttonClicked:", forControlEvents: UIControlEvents.TouchUpInside);
         }
+        // main button
+        self.createMainButtonCloseImage(_closeImage, OpenImage:_openImage);
     }
     
     func getFrameWithLocation(location:ButtonMenuLocation) -> CGRect {
@@ -124,6 +126,54 @@ class ButtonMenu: UIView {
                 break;
         }
         return rect;
+    }
+    
+    func createMainButtonCloseImage(_closeImage:NSString, OpenImage _openImage:NSString) {
+        var btnMain:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton;
+        btnMain.frame = CGRectMake(0, 0, BUTTON_DIAMETER, BUTTON_DIAMETER);
+        btnMain.backgroundColor = UIColor.grayColor();
+        
+        btnMain.setTitle("▲", forState: UIControlState.Normal);
+        btnMain.tag = 10000;
+        btnMain.layer.cornerRadius = BUTTON_DIAMETER/2;
+        self.addSubview(btnMain);
+        
+        btnMain.addTarget(self, action: "switchMenuStatus", forControlEvents: UIControlEvents.TouchUpInside);
+        
+//        UIButton* btnMain = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [btnMain setFrame:CGRectMake(0, 0, BUTTON_DIAMETER, BUTTON_DIAMETER)];
+//        [btnMain setBackgroundColor:COLOR_SEARCH_ITEM_OFF];
+//        
+//        // image
+//        if(closeImgOrNil)
+//        {
+//            [btnMain setImage:[UIImage imageNamed:closeImgOrNil]
+//                forState:UIControlStateNormal];
+//        }
+//        else
+//        {
+//            [btnMain setTitle:@"▲" forState:UIControlStateNormal];
+//        }
+//        
+//        [btnMain setTag:TAG_MAIN_BUTTON];
+//        [btnMain.layer setCornerRadius:BUTTON_DIAMETER/2];
+//        [self addSubview:btnMain];
+//        
+//        [btnMain addTarget:self
+//            action:@selector(switchMenuStatus)
+//        forControlEvents:UIControlEventTouchUpInside];
+        
+    }
+    
+    func switchMenuStatus() {
+        if (self.status == ButtonMenuStatus.Closed)
+        {
+            self.showMenuWithAnimation(true);
+        }
+        else if (self.status == ButtonMenuStatus.Opened)
+        {
+            //[self hideMenuWithAnimation:YES];
+        }
     }
 
     
@@ -199,22 +249,6 @@ class ButtonMenu: UIView {
             subview.alpha = 1.0;
         }
         UIView.commitAnimations();
-        
-//        [UIView beginAnimations:@"showMenuWithAnimation" context:nil];
-//        [UIView setAnimationDelegate:self];
-//        [UIView setAnimationDidStopSelector:@selector(afterShow)];
-//        [UIView setAnimationDuration:ANIMATION_DURATION];
-//        
-//        [self setFrame:_frameOpen];
-//        
-//        for (UIView* subView in [self subviews])
-//        {
-//            NSInteger tag = subView.tag;
-//            CGRect targetFrame = [self calcButtonFrame:(tag-TAG_MAIN_BUTTON)];
-//            [subView setFrame:targetFrame];
-//            [subView setAlpha:1.0f];
-//        }
-//        [UIView commitAnimations];
     }
     
     func calcButtonFrame(index:NSInteger) -> CGRect {
@@ -253,5 +287,12 @@ class ButtonMenu: UIView {
         }
         
         return ret;
+    }
+    
+    // delegate
+    func buttonClicked(sender:UIButton) {
+        if self.delegate.respondsToSelector("buttonMenu:clickedButtonIndex:") {
+            delegate.buttonMenu(self, clickedButtonIndex:sender.tag-10000);
+        }
     }
 }
