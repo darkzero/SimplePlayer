@@ -9,6 +9,9 @@
 import UIKit
 import MediaPlayer
 
+let REPEAT_MENU_TAG = 10001;
+let SHUFFLE_MENU_TAG = 10002;
+
 class MainViewController: UIViewController, ButtonMenuDelegate {
     
     @IBOutlet var songNameLabel : UILabel;
@@ -73,13 +76,19 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
         var repeatMenuButton = ButtonMenu(Location: ButtonMenuLocation.LeftBottom, Direction:ButtonMenuDirection.Right, CloseImage:"", OpenImage:"", TitleArray:["One", "All", "Off"]);
         self.view.addSubview(repeatMenuButton);
         repeatMenuButton.delegate = self;
+        repeatMenuButton.tag = REPEAT_MENU_TAG;
         repeatMenuButton.frame = repeatMenuButton.getFrameWithLocation(repeatMenuButton.location);
         
         // shuffle mode buttons
         var shuffleMenuButton = ButtonMenu(Location: ButtonMenuLocation.RightBottom, Direction:ButtonMenuDirection.Up, CloseImage:"", OpenImage:"", TitleArray:["On", "Off"]);
         self.view.addSubview(shuffleMenuButton);
         shuffleMenuButton.delegate = self;
+        shuffleMenuButton.tag = SHUFFLE_MENU_TAG;
         shuffleMenuButton.frame = shuffleMenuButton.getFrameWithLocation(shuffleMenuButton.location);
+        
+        var repeatModeName = ["Default", "Off", "One", "All"][MusicPlayer.defaultPlayer().player.repeatMode.hashValue] as NSString;
+        repeatMenuButton.btnMain.setTitle(repeatModeName, forState: UIControlState.Normal);
+        //shuffleMenuButton.btnMain.setTitle([""], forState: UIControlState.Normal);
     }
 
     override func didReceiveMemoryWarning() {
@@ -114,9 +123,7 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
         MusicPlayer.defaultPlayer().player.skipToPreviousItem();
     }
     
-    func drawVolumeBar() {
-    }
-    
+    // MARK: - ddd
     func updateProgress() {
         self.progress.currentValue   = MusicPlayer.defaultPlayer().currentPlaybackTime;
         // time label
@@ -161,5 +168,52 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
     func buttonMenu(buttonMenu:ButtonMenu, clickedButtonIndex index:Int) {
         // nothing
         NSLog("\(index)");
+        switch buttonMenu.tag {
+        case REPEAT_MENU_TAG :
+            self.changeRepeatModeTo(buttonMenu, btnIdx:index);
+            break;
+        case SHUFFLE_MENU_TAG :
+            self.changeShuffleModeTo(buttonMenu, btnIdx:index);
+            break;
+        default:
+            NSLog("error");
+            break;
+        }
+        buttonMenu.hideMenuWithAnimation(true);
+    }
+    
+    func changeRepeatModeTo(buttonMenu:ButtonMenu, btnIdx:Int) {
+        switch btnIdx {
+        case 1 : // One
+            MusicPlayer.defaultPlayer().player.repeatMode = MPMusicRepeatMode.One;
+            buttonMenu.btnMain.setTitle("One", forState: UIControlState.Normal);
+            break;
+        case 2 : // All
+            MusicPlayer.defaultPlayer().player.repeatMode = MPMusicRepeatMode.All;
+            buttonMenu.btnMain.setTitle("All", forState: UIControlState.Normal);
+            break;
+        case 3 : // Off
+            MusicPlayer.defaultPlayer().player.repeatMode = MPMusicRepeatMode.None;
+            buttonMenu.btnMain.setTitle("Off", forState: UIControlState.Normal);
+            break;
+        default :
+            break;
+        }
+    }
+    
+    func changeShuffleModeTo(buttonMenu:ButtonMenu, btnIdx:Int) {
+        switch btnIdx {
+        case 1 : // On
+            MusicPlayer.defaultPlayer().player.shuffleMode = MPMusicShuffleMode.Songs;
+            buttonMenu.btnMain.setTitle("On", forState: UIControlState.Normal);
+            buttonMenu.subviews
+            break;
+        case 2 : // Off
+            MusicPlayer.defaultPlayer().player.shuffleMode = MPMusicShuffleMode.Off;
+            buttonMenu.btnMain.setTitle("Off", forState: UIControlState.Normal);
+            break;
+        default :
+            break;
+        }
     }
 }

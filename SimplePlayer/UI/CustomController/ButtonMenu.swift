@@ -44,6 +44,8 @@ class ButtonMenu: UIView {
     var status:ButtonMenuStatus = ButtonMenuStatus.Closed;
     
     var buttonCount:Int = 0;
+    
+    var btnMain:UIButton!;
 
 //    init(frame: CGRect) {
 //        super.init(frame: frame)
@@ -129,16 +131,16 @@ class ButtonMenu: UIView {
     }
     
     func createMainButtonCloseImage(_closeImage:NSString, OpenImage _openImage:NSString) {
-        var btnMain:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton;
-        btnMain.frame = CGRectMake(0, 0, BUTTON_DIAMETER, BUTTON_DIAMETER);
-        btnMain.backgroundColor = UIColor.grayColor();
+        self.btnMain = UIButton.buttonWithType(UIButtonType.Custom) as UIButton;
+        self.btnMain.frame = CGRectMake(0, 0, BUTTON_DIAMETER, BUTTON_DIAMETER);
+        self.btnMain.backgroundColor = UIColor.grayColor();
         
-        btnMain.setTitle("▲", forState: UIControlState.Normal);
-        btnMain.tag = 10000;
-        btnMain.layer.cornerRadius = BUTTON_DIAMETER/2;
-        self.addSubview(btnMain);
+        self.btnMain.setTitle("▲", forState: UIControlState.Normal);
+        self.btnMain.tag = 10000;
+        self.btnMain.layer.cornerRadius = BUTTON_DIAMETER/2;
+        self.addSubview(self.btnMain);
         
-        btnMain.addTarget(self, action: "switchMenuStatus", forControlEvents: UIControlEvents.TouchUpInside);
+        self.btnMain.addTarget(self, action: "switchMenuStatus", forControlEvents: UIControlEvents.TouchUpInside);
         
 //        UIButton* btnMain = [UIButton buttonWithType:UIButtonTypeCustom];
 //        [btnMain setFrame:CGRectMake(0, 0, BUTTON_DIAMETER, BUTTON_DIAMETER)];
@@ -172,6 +174,7 @@ class ButtonMenu: UIView {
         }
         else if (self.status == ButtonMenuStatus.Opened)
         {
+            self.hideMenuWithAnimation(true);
             //[self hideMenuWithAnimation:YES];
         }
     }
@@ -249,6 +252,37 @@ class ButtonMenu: UIView {
             subview.alpha = 1.0;
         }
         UIView.commitAnimations();
+    }
+    
+    func afterShow() {
+        self.status = ButtonMenuStatus.Opened;
+    }
+    
+    func hideMenuWithAnimation(animation:Bool) {
+        
+        self.status = ButtonMenuStatus.Closing;
+        
+        UIView.beginAnimations("showMenuWithAnimation", context: nil);
+        UIView.setAnimationDelegate(self);
+        UIView.setAnimationDidStopSelector("afterHide");
+        UIView.setAnimationDuration(0.7);
+        
+        self.frame = self.frameClose;
+        
+        for subview:UIView! in self.subviews {
+            var tag = subview.tag;
+            var targetFrame:CGRect = CGRectMake(0, 0, subview.frame.size.width, subview.frame.size.height);
+            subview.frame = targetFrame;
+            if subview.tag != 10000 {
+                subview.alpha = 0.0;
+            }
+        }
+        UIView.commitAnimations();
+        
+    }
+    
+    func afterHide() {
+        self.status = ButtonMenuStatus.Closed;
     }
     
     func calcButtonFrame(index:NSInteger) -> CGRect {

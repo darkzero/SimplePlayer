@@ -101,7 +101,14 @@ class MusicPlayer: NSObject {
     }
     
     var playbackDuration : CGFloat {
-        get { return CGFloat(self.player.nowPlayingItem.playbackDuration); }
+        get {
+            if ( self.player.nowPlayingItem ) {
+                return CGFloat(self.player.nowPlayingItem.playbackDuration);
+            }
+            else {
+                return 0.0;
+            }
+        }
     }
     
     // on playback state changed
