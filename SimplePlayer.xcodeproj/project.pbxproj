@@ -19,6 +19,7 @@
 		F7026E4A194ECAD10093C62E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7026E49194ECAD10093C62E /* AVFoundation.framework */; };
 		F7026E4C194ECADB0093C62E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7026E4B194ECADB0093C62E /* MediaPlayer.framework */; };
 		F7026E4E194EDAD10093C62E /* MusicLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7026E4D194EDAD10093C62E /* MusicLibrary.swift */; };
+		F721983519598B5C00E89983 /* ButtonMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F721983419598B5C00E89983 /* ButtonMenu.swift */; };
 		F78F6269194F27DC001AF5BC /* PlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78F6268194F27DC001AF5BC /* PlaylistViewController.swift */; };
 		F78F626B194F280E001AF5BC /* ArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78F626A194F280E001AF5BC /* ArtistViewController.swift */; };
 /* End PBXBuildFile section */
@@ -50,6 +51,7 @@
 		F7026E49194ECAD10093C62E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F7026E4B194ECADB0093C62E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		F7026E4D194EDAD10093C62E /* MusicLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicLibrary.swift; sourceTree = "<group>"; };
+		F721983419598B5C00E89983 /* ButtonMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonMenu.swift; sourceTree = "<group>"; };
 		F78F6268194F27DC001AF5BC /* PlaylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistViewController.swift; sourceTree = "<group>"; };
 		F78F626A194F280E001AF5BC /* ArtistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				EF4EC2341947749200C5E85C /* AnnularProgress.swift */,
+				F721983419598B5C00E89983 /* ButtonMenu.swift */,
 			);
 			path = CustomController;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F721983519598B5C00E89983 /* ButtonMenu.swift in Sources */,
 				EF4EC2321947605400C5E85C /* SettingViewController.swift in Sources */,
 				EF4EC22E1947603B00C5E85C /* MainViewController.swift in Sources */,
 				F78F626B194F280E001AF5BC /* ArtistViewController.swift in Sources */,
