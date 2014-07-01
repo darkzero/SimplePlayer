@@ -49,7 +49,7 @@ class ArtistViewController: UIViewController, UICollectionViewDataSource, UIColl
     // #pragma mark - Navigation
     func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
         NSLog("row count is %d", self.artistsList.count);
-        collectionView.registerClass(UICollectionView.self, forCellWithReuseIdentifier: "ArtistCell");
+        collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "ArtistCell");
         return self.artistsList.count;
     }
     
