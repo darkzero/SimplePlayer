@@ -12,6 +12,13 @@ import Darwin
 
 let pi:CGFloat              = 3.1415926;
 
+
+//@IBDesignable class CustomView : UIView {
+//    @IBInspectable var borderColor: UIColor = UIColor.clearColor()
+//    @IBInspectable var borderWidth: CGFloat = 0
+//    @IBInspectable var cornerRadius: CGFloat = 0
+//}
+
 class AnnularProgress: UIView {
     
     var currentValue : CGFloat  = 0;

@@ -16,21 +16,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Song Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HOO-so-0Ys">
+                            <label autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Song Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HOO-so-0Ys">
                                 <rect key="frame" x="0.0" y="20" width="320" height="22"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="209-hN-ZDt">
-                                <rect key="frame" x="60" y="526" width="200" height="22"/>
-                                <state key="normal" title="Songs">
-                                    <color key="titleColor" red="0.90875912410000004" green="0.22262773720000001" blue="0.28102189779999998" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="HaE-AD-CUx" kind="presentation" id="SqZ-6T-enb"/>
-                                </connections>
-                            </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1dY-wd-bPb">
                                 <rect key="frame" x="40" y="120" width="240" height="240"/>
                                 <subviews>
@@ -86,27 +77,30 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="VOLUME:100" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v5o-e2-zef">
-                                <rect key="frame" x="210" y="370" width="70" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="209-hN-ZDt">
+                                <rect key="frame" x="248" y="329" width="48" height="48"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="LibraryButton"/>
+                                <connections>
+                                    <segue destination="HaE-AD-CUx" kind="presentation" id="SqZ-6T-enb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.94522696167883213" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="HOO-so-0Ys" secondAttribute="trailing" constant="75" id="G0S-wR-io1"/>
+                            <constraint firstAttribute="trailing" secondItem="HOO-so-0Ys" secondAttribute="trailing" id="G0S-wR-io1"/>
                             <constraint firstItem="ehP-Pz-RWl" firstAttribute="top" secondItem="3m7-49-9eU" secondAttribute="bottom" constant="4" id="GzH-2b-ORN"/>
-                            <constraint firstItem="HOO-so-0Ys" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="75" id="Rq2-BX-M2g"/>
+                            <constraint firstItem="HOO-so-0Ys" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Rq2-BX-M2g"/>
                             <constraint firstItem="3m7-49-9eU" firstAttribute="top" secondItem="HOO-so-0Ys" secondAttribute="bottom" constant="5" id="SaE-nc-WUK"/>
                             <constraint firstItem="HOO-so-0Ys" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="20" id="elD-Gk-306"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="209-hN-ZDt" secondAttribute="bottom" constant="20" id="gvP-gr-wb0"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="209-hN-ZDt" secondAttribute="bottom" constant="179" id="hFm-Gu-woN"/>
                         </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="artistNameLabel" destination="3m7-49-9eU" id="tj1-zP-Bya"/>
+                        <outlet property="libButton" destination="209-hN-ZDt" id="xcz-nE-Kzo"/>
                         <outlet property="nextButton" destination="qSb-m7-6BD" id="fZ0-Ls-FXp"/>
                         <outlet property="playPauseButton" destination="TkB-n9-7yl" id="bFg-1p-F0e"/>
                         <outlet property="prevButton" destination="Pr4-55-AvQ" id="ccV-DP-1gX"/>
@@ -114,7 +108,6 @@
                         <outlet property="songImgView" destination="lQk-MG-xc4" id="cBf-nE-vMj"/>
                         <outlet property="songNameLabel" destination="HOO-so-0Ys" id="n0r-zo-PS2"/>
                         <outlet property="timeLabel" destination="ehP-Pz-RWl" id="RCg-fy-ueT"/>
-                        <outlet property="volumeLabel" destination="v5o-e2-zef" id="yn7-N5-UxM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -243,4 +236,7 @@
             <point key="canvasLocation" x="774" y="336"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="LibraryButton" width="32" height="32"/>
+    </resources>
 </document>

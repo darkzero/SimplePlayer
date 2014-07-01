@@ -9,8 +9,8 @@
 import UIKit
 import MediaPlayer
 
-let REPEAT_MENU_TAG = 10001;
-let SHUFFLE_MENU_TAG = 10002;
+let REPEAT_MENU_TAG     = 1001;
+let SHUFFLE_MENU_TAG    = 1002;
 
 class MainViewController: UIViewController, ButtonMenuDelegate {
     
@@ -22,12 +22,13 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
     @IBOutlet var nextButton : UIButton;
     @IBOutlet var prevButton : UIButton;
     @IBOutlet var timeLabel : UILabel;
-    @IBOutlet var volumeLabel : UILabel;
+    @IBOutlet var libButton : UIButton;
     
     var progress:AnnularProgress;
+    var pauseMask:UIView!;
 
     init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        self.progress = AnnularProgress(outerRadius: 120.0, innerRadius: 116.0);
+        self.progress = AnnularProgress(outerRadius: 125.0, innerRadius: 119.0);
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
     }
@@ -47,7 +48,7 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
         
         self.progress.center        = self.songImgBgView.center;
         self.progress.maxValue      = 100.0;
-        self.progress.currentValue  = 40.0;
+        self.progress.currentValue  = 0.0;
         
         var player = MusicPlayer.defaultPlayer();
         
@@ -65,12 +66,10 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
         self.playPauseButton.layer.cornerRadius = self.playPauseButton.frame.size.width/2;
         self.nextButton.layer.cornerRadius = self.nextButton.frame.size.width/2;
         self.prevButton.layer.cornerRadius = self.prevButton.frame.size.width/2;
+        self.libButton.layer.cornerRadius = self.libButton.frame.size.width/2;
         
         // start progress timer
         var progressTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "updateProgress", userInfo: nil, repeats: true);
-        
-        // songs count
-        self.volumeLabel.text = "V:\(Int(MusicPlayer.defaultPlayer().player.volume*100))";
         
         // repeat mode buttons
         var repeatMenuButton = ButtonMenu(Location: ButtonMenuLocation.LeftBottom, Direction:ButtonMenuDirection.Right, CloseImage:"", OpenImage:"", TitleArray:["One", "All", "Off"]);
@@ -86,9 +85,20 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
         shuffleMenuButton.tag = SHUFFLE_MENU_TAG;
         shuffleMenuButton.frame = shuffleMenuButton.getFrameWithLocation(shuffleMenuButton.location);
         
-        var repeatModeName = ["Default", "Off", "One", "All"][MusicPlayer.defaultPlayer().player.repeatMode.hashValue] as NSString;
+        var repeatModeName = ["R", "Off", "One", "All"][MusicPlayer.defaultPlayer().player.repeatMode.hashValue] as NSString;
         repeatMenuButton.btnMain.setTitle(repeatModeName, forState: UIControlState.Normal);
-        //shuffleMenuButton.btnMain.setTitle([""], forState: UIControlState.Normal);
+        //repeatMenuButton.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil);
+        
+        var shuffleModeName = ["S", "Off", "Songs", "Albums"][MusicPlayer.defaultPlayer().player.shuffleMode.hashValue] as NSString;
+        shuffleMenuButton.btnMain.setTitle(shuffleModeName, forState: UIControlState.Normal);
+        //shuffleMenuButton.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.New, context: nil);
+        
+        // mask
+        self.pauseMask = UIView(frame: self.songImgView.frame);
+        self.pauseMask.backgroundColor = UIColor(white: 0.6, alpha: 0.6);
+        self.pauseMask.layer.cornerRadius = 100.0;
+        self.songImgBgView.addSubview(self.pauseMask);
+        self.pauseMask.hidden = true;
     }
 
     override func didReceiveMemoryWarning() {
@@ -123,6 +133,10 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
         MusicPlayer.defaultPlayer().player.skipToPreviousItem();
     }
     
+//    @IBAction func onLibraryButtonClicked(sender:UIButton) {
+//        //
+//    }
+    
     // MARK: - ddd
     func updateProgress() {
         self.progress.currentValue   = MusicPlayer.defaultPlayer().currentPlaybackTime;
@@ -144,25 +158,6 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
     
     func format(num:UInt, f: String) -> String {
         return NSString(format: "%\(f)d", num);
-    }
-    
-    //
-    func onReciveRefreshNotification(noti:NSNotification) {
-        self.progress.maxValue       = MusicPlayer.defaultPlayer().playbackDuration;
-        self.progress.currentValue   = MusicPlayer.defaultPlayer().currentPlaybackTime;
-        
-        self.songNameLabel.text = MusicPlayer.defaultPlayer().player.nowPlayingItem.title;
-        self.artistNameLabel.text = MusicPlayer.defaultPlayer().player.nowPlayingItem.artist;
-        
-        // image
-        self.songImgView.clipsToBounds = true;
-        self.songImgView.contentMode = UIViewContentMode.ScaleAspectFit;
-        var img = MusicPlayer.defaultPlayer().player.nowPlayingItem.artwork.imageWithSize(CGSizeMake(200, 200));
-        self.songImgView.image = img
-        self.songImgView.frame.size = CGSizeMake(200, 200);
-        
-        // volume
-        self.volumeLabel.text = "V:\(Int(MusicPlayer.defaultPlayer().player.volume*100))";
     }
     
     func buttonMenu(buttonMenu:ButtonMenu, clickedButtonIndex index:Int) {
@@ -215,5 +210,52 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
         default :
             break;
         }
+    }
+    
+    ///
+    /// Notification listener
+    ///
+    
+    // play state changed / playing item changed
+    func onReciveRefreshNotification(noti:NSNotification) {
+        self.progress.maxValue       = MusicPlayer.defaultPlayer().playbackDuration;
+        self.progress.currentValue   = MusicPlayer.defaultPlayer().currentPlaybackTime;
+        
+        if ( noti.userInfo["NotificationName"] as NSString == MPMusicPlayerControllerNowPlayingItemDidChangeNotification ) {
+            self.songNameLabel.text = MusicPlayer.defaultPlayer().nowPlayingTitle;
+            self.artistNameLabel.text = MusicPlayer.defaultPlayer().nowPlayingArtist;
+            
+            // image
+            self.songImgView.clipsToBounds = true;
+            self.songImgView.contentMode = UIViewContentMode.ScaleAspectFill;
+            self.songImgView.image = MusicPlayer.defaultPlayer().nowPlayingArtwork
+            self.songImgView.frame.size = CGSizeMake(200, 200);
+        }
+        
+        if ( noti.userInfo["NotificationName"] as NSString == MPMusicPlayerControllerPlaybackStateDidChangeNotification ) {
+            // play/pause status
+            self.pauseMask.hidden = (MusicPlayer.defaultPlayer().player.playbackState == MPMusicPlaybackState.Playing);
+            if ( MusicPlayer.defaultPlayer().player.playbackState == MPMusicPlaybackState.Playing ) {
+                self.playPauseButton.setTitle("PAUSE", forState: UIControlState.Normal);
+            }
+            else {
+                self.playPauseButton.setTitle("PLAY", forState: UIControlState.Normal);
+            }
+        }
+    }
+    
+//    ///
+//    /// KVO
+//    ///
+    override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObject!, change: NSDictionary!, context: CMutableVoidPointer) {
+        NSLog("\(change)");
+//        if ( keyPath == "playbackState" ) {
+//            if ( object.tag == REPEAT_MENU_TAG ) {
+//                
+//            }
+//            else if ( object.tag == SHUFFLE_MENU_TAG ) {
+//                
+//            }
+//        }
     }
 }

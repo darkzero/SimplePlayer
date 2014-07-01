@@ -12,6 +12,7 @@ let PADDING:CGFloat         = 10.0;
 let BUTTON_DIAMETER:CGFloat = 40.0;
 let BUTTON_PADDING:CGFloat  = 4.0;
 
+let BUTTON_TAG_BASE:Int     = 10000;
 
 enum ButtonMenuStatus {
     case Closed, Opened, Closing, Opening;
@@ -46,11 +47,6 @@ class ButtonMenu: UIView {
     var buttonCount:Int = 0;
     
     var btnMain:UIButton!;
-
-//    init(frame: CGRect) {
-//        super.init(frame: frame)
-//        // Initialization code
-    //    }
     
     init(Location _location:ButtonMenuLocation, Direction _direction:ButtonMenuDirection, CloseImage _closeImage:NSString, OpenImage _openImage:NSString, TitleArray _titleArray:NSArray) {
         // init with parameter
@@ -78,7 +74,7 @@ class ButtonMenu: UIView {
             btn.backgroundColor = UIColor(red: 47.0/255.0, green: 47.0/255.0, blue: 47.0/255.0, alpha: 0.6);
             btn.setTitle(s, forState: UIControlState.Normal);
             btn.layer.cornerRadius = BUTTON_DIAMETER/2;
-            btn.tag = 10000+i+1;
+            btn.tag = BUTTON_TAG_BASE+i+1;
             btn.alpha = 0.0;
             self.addSubview(btn);
             
@@ -136,35 +132,11 @@ class ButtonMenu: UIView {
         self.btnMain.backgroundColor = UIColor.grayColor();
         
         self.btnMain.setTitle("▲", forState: UIControlState.Normal);
-        self.btnMain.tag = 10000;
+        self.btnMain.tag = BUTTON_TAG_BASE;
         self.btnMain.layer.cornerRadius = BUTTON_DIAMETER/2;
         self.addSubview(self.btnMain);
         
         self.btnMain.addTarget(self, action: "switchMenuStatus", forControlEvents: UIControlEvents.TouchUpInside);
-        
-//        UIButton* btnMain = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [btnMain setFrame:CGRectMake(0, 0, BUTTON_DIAMETER, BUTTON_DIAMETER)];
-//        [btnMain setBackgroundColor:COLOR_SEARCH_ITEM_OFF];
-//        
-//        // image
-//        if(closeImgOrNil)
-//        {
-//            [btnMain setImage:[UIImage imageNamed:closeImgOrNil]
-//                forState:UIControlStateNormal];
-//        }
-//        else
-//        {
-//            [btnMain setTitle:@"▲" forState:UIControlStateNormal];
-//        }
-//        
-//        [btnMain setTag:TAG_MAIN_BUTTON];
-//        [btnMain.layer setCornerRadius:BUTTON_DIAMETER/2];
-//        [self addSubview:btnMain];
-//        
-//        [btnMain addTarget:self
-//            action:@selector(switchMenuStatus)
-//        forControlEvents:UIControlEventTouchUpInside];
-        
     }
     
     func switchMenuStatus() {
@@ -175,7 +147,6 @@ class ButtonMenu: UIView {
         else if (self.status == ButtonMenuStatus.Opened)
         {
             self.hideMenuWithAnimation(true);
-            //[self hideMenuWithAnimation:YES];
         }
     }
 
@@ -235,7 +206,7 @@ class ButtonMenu: UIView {
     }
     
     func showMenuWithAnimation(animation:Bool) {
-        
+        //NSNotificationCenter.defaultCenter().postNotificationName("buttonMenuOpeningNotification", object: self);
         self.status = ButtonMenuStatus.Opening;
         
         UIView.beginAnimations("showMenuWithAnimation", context: nil);
@@ -247,7 +218,7 @@ class ButtonMenu: UIView {
         
         for subview:UIView! in self.subviews {
             var tag = subview.tag;
-            var targetFrame:CGRect = self.calcButtonFrame(tag-10000);
+            var targetFrame:CGRect = self.calcButtonFrame(tag-BUTTON_TAG_BASE);
             subview.frame = targetFrame;
             subview.alpha = 1.0;
         }
@@ -259,7 +230,7 @@ class ButtonMenu: UIView {
     }
     
     func hideMenuWithAnimation(animation:Bool) {
-        
+        //NSNotificationCenter.defaultCenter().postNotificationName("buttonMenuClosingNotification", object: self);
         self.status = ButtonMenuStatus.Closing;
         
         UIView.beginAnimations("showMenuWithAnimation", context: nil);
@@ -273,7 +244,7 @@ class ButtonMenu: UIView {
             var tag = subview.tag;
             var targetFrame:CGRect = CGRectMake(0, 0, subview.frame.size.width, subview.frame.size.height);
             subview.frame = targetFrame;
-            if subview.tag != 10000 {
+            if subview.tag != BUTTON_TAG_BASE {
                 subview.alpha = 0.0;
             }
         }
@@ -326,7 +297,7 @@ class ButtonMenu: UIView {
     // delegate
     func buttonClicked(sender:UIButton) {
         if self.delegate.respondsToSelector("buttonMenu:clickedButtonIndex:") {
-            delegate.buttonMenu(self, clickedButtonIndex:sender.tag-10000);
+            delegate.buttonMenu(self, clickedButtonIndex:sender.tag - BUTTON_TAG_BASE);
         }
     }
 }

@@ -97,35 +97,69 @@ class MusicPlayer: NSObject {
     }
     
     var currentPlaybackTime : CGFloat {
-        get { return CGFloat(self.player.currentPlaybackTime); }
+    get { return CGFloat(self.player.currentPlaybackTime); }
+    }
+    
+    var nowPlayingTitle : NSString {
+    get {
+        if ( self.player.nowPlayingItem ) {
+            return self.player.nowPlayingItem.title;
+        }
+        else {
+            return "";
+        }
+    }
+    }
+    
+    var nowPlayingArtist : NSString {
+    get {
+        if ( self.player.nowPlayingItem ) {
+            return self.player.nowPlayingItem.artist;
+        }
+        else {
+            return "";
+        }
+    }
+    }
+    
+    var nowPlayingArtwork : UIImage {
+    get {
+        if ( self.player.nowPlayingItem ) {
+            return MusicPlayer.defaultPlayer().player.nowPlayingItem.artwork.imageWithSize(CGSizeMake(200, 200));
+            //return UIImage(named: "defaultArtwork");
+        }
+        else {
+            return UIImage(named: "defaultArtwork");
+        }
+    }
     }
     
     var playbackDuration : CGFloat {
-        get {
-            if ( self.player.nowPlayingItem ) {
-                return CGFloat(self.player.nowPlayingItem.playbackDuration);
-            }
-            else {
-                return 0.0;
-            }
+    get {
+        if ( self.player.nowPlayingItem ) {
+            return CGFloat(self.player.nowPlayingItem.playbackDuration);
         }
+        else {
+            return 0.0;
+        }
+    }
     }
     
     // on playback state changed
     func onRecivePlaybackStateDidChangeNotification(noti:NSNotification) {
-        NSLog("noti %@", noti.name);
-        NSNotificationCenter.defaultCenter().postNotificationName("needRefreshPlayerViewNotification", object: self);
+        var userInfo:NSDictionary = NSDictionary(object: noti.name, forKey: "NotificationName");
+        NSNotificationCenter.defaultCenter().postNotificationName("needRefreshPlayerViewNotification", object: self, userInfo: userInfo);
     }
     
     // on playing item changed
     func onReciveNowPlayingItemDidChangeNotification(noti:NSNotification) {
-        NSLog("noti %@", noti.name);
-        NSNotificationCenter.defaultCenter().postNotificationName("needRefreshPlayerViewNotification", object: self);
+        var userInfo:NSDictionary = NSDictionary(object: noti.name, forKey: "NotificationName");
+        NSNotificationCenter.defaultCenter().postNotificationName("needRefreshPlayerViewNotification", object: self, userInfo: userInfo);
     }
     
     // on volume changed
     func onReciveVolumeDidChangeNotification(noti:NSNotification) {
-        NSLog("noti %@", noti.name);
-        NSNotificationCenter.defaultCenter().postNotificationName("needRefreshPlayerViewNotification", object: self);
+        var userInfo:NSDictionary = NSDictionary(object: noti.name, forKey: "NotificationName");
+        NSNotificationCenter.defaultCenter().postNotificationName("needRefreshPlayerViewNotification", object: self, userInfo: userInfo);
     }
 }
