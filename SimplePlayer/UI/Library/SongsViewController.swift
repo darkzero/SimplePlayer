@@ -1,28 +1,23 @@
 //
-//  PlaylistViewController.swift
+//  SongsViewController.swift
 //  SimplePlayer
 //
-//  Created by darkzero on 14-6-11.
-//  Copyright (c) 2014 darkzero. All rights reserved.
+//  Created by Lihua Hu on 2014/07/03.
+//  Copyright (c) 2014年 darkzero. All rights reserved.
 //
 
 import UIKit
 import MediaPlayer
 
-class PlaylistViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class SongsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet var songsTable : UITableView;
-    var playlistList:NSMutableArray;
+    @IBOutlet var songsTable:UITableView;
+    
+    var itemCollection:MPMediaItemCollection!;
 
     init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        self.playlistList = MusicLibrary.defaultPlayer().getiPodPlaylists();
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
-    }
-    
-    init(coder aDecoder: NSCoder!) {
-        self.playlistList = MusicLibrary.defaultPlayer().getiPodPlaylists();
-        super.init(coder: aDecoder)
     }
 
     override func viewDidLoad() {
@@ -36,10 +31,6 @@ class PlaylistViewController: UIViewController, UITableViewDataSource, UITableVi
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated);
-        //self.songsTable.reloadData();
-    }
 
     /*
     // #pragma mark - Navigation
@@ -50,12 +41,14 @@ class PlaylistViewController: UIViewController, UITableViewDataSource, UITableVi
         // Pass the selected object to the new view controller.
     }
     */
-
-    // #pragma mark - Navigation
+    
+    ///
+    /// UITableViewDataSource
+    ///
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        return self.playlistList.count;
+        return self.itemCollection.count;
     }
-
+    
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         let cellIdentifier = "SongCell"
         
@@ -65,28 +58,23 @@ class PlaylistViewController: UIViewController, UITableViewDataSource, UITableVi
             cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: cellIdentifier);
         }
         
-        cell!.textLabel.text = (self.playlistList[indexPath.row] as MPMediaPlaylist).name;
+        cell!.textLabel.text = (self.itemCollection.items[indexPath.row] as MPMediaItem).title;
         
         //NSLog("%@", self.playlistList[indexPath.row]);
         
         return cell;
     }
     
+    ///
+    /// UITableViewDelegate
+    ///
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         //var mediaItem:MPMediaItem = self.playlistList[indexPath.row] as MPMediaItem;
         
-        var songsVC:SongsViewController = SongsViewController(nibName: "SongsViewController", bundle: nil);
+        MusicPlayer.defaultPlayer().player.setQueueWithItemCollection(self.itemCollection);
+        MusicPlayer.defaultPlayer().player.play();
         
-        var mCollection:MPMediaItemCollection = self.playlistList[indexPath.row] as MPMediaItemCollection;
-        songsVC.itemCollection = mCollection;
-        self.navigationController.pushViewController(songsVC, animated: true);
-        
-//        var player = MusicPlayer.defaultPlayer();
-//        player.player.setQueueWithItemCollection(MPMediaItemCollection(items:self.getiPodPlaylists));
-//        player.player.nowPlayingItem = mediaItem;
-//        player.player.play();
-        
-        //self.dismissModalViewControllerAnimated(true);
+        self.dismissModalViewControllerAnimated(true);
     }
 
 }

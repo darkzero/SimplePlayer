@@ -1,26 +1,25 @@
 //
-//  ArtistViewController.swift
+//  AlbumViewController.swift
 //  SimplePlayer
 //
-//  Created by Lihua Hu on 2014/06/16.
-//  Copyright (c) 2014 darkzero. All rights reserved.
+//  Created by Lihua Hu on 2014/07/03.
+//  Copyright (c) 2014年 darkzero. All rights reserved.
 //
 
 import UIKit
 import MediaPlayer
 
-class ArtistViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    var artistsList:NSMutableArray;
+class AlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+
+    var albumsList:NSMutableArray;
     
 //    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-//        self.artistsList = MusicLibrary.defaultPlayer().getiPodArtistList();
 //        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 //        // Custom initialization
 //    }
     
     init(coder aDecoder: NSCoder!) {
-        self.artistsList = MusicLibrary.defaultPlayer().getiPodArtistList();
+        self.albumsList = MusicLibrary.defaultPlayer().getiPodAlbumList();
         super.init(coder: aDecoder)
     }
 
@@ -48,14 +47,14 @@ class ArtistViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     // #pragma mark - CollectionView dataSource
     func numberOfSectionsInCollectionView(collectionView: UICollectionView!) -> Int {
-        NSLog("section count is %d", self.artistsList.count);
-        return self.artistsList.count;
+        NSLog("section count is %d", self.albumsList.count);
+        return self.albumsList.count;
     }
     
     func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
-        NSLog("row count is %d", self.artistsList[section].count);
+        NSLog("row count is %d", self.albumsList[section].count);
         collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "ArtistCell");
-        return self.artistsList[section].count;
+        return self.albumsList[section].count;
     }
     
     func collectionView(collectionView: UICollectionView!, viewForSupplementaryElementOfKind kind: String!, atIndexPath indexPath: NSIndexPath!) -> UICollectionReusableView! {
@@ -85,7 +84,7 @@ class ArtistViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
         
         cell!.backgroundColor = UIColor.whiteColor();
-        var mediaItemC: MPMediaItemCollection = ((self.artistsList[indexPath.section] as NSMutableArray)[indexPath.row]) as MPMediaItemCollection;
+        var mediaItemC: MPMediaItemCollection = ((self.albumsList[indexPath.section] as NSMutableArray)[indexPath.row]) as MPMediaItemCollection;
         var image = mediaItemC.representativeItem.artwork.imageWithSize(CGSize(width: 100, height: 100));
         cell!.backgroundView = UIImageView(image: image);
         
@@ -98,7 +97,7 @@ class ArtistViewController: UIViewController, UICollectionViewDataSource, UIColl
             artistLabel.textRectForBounds(CGRectMake(10, 80, 90, 20), limitedToNumberOfLines: 1)
             cell!.contentView.addSubview(artistLabel);
         }
-        (cell!.viewWithTag(998) as UILabel).text = mediaItemC.representativeItem.artist;
+        (cell!.viewWithTag(998) as UILabel).text = mediaItemC.representativeItem.albumTitle;
         
         return cell;
     }
@@ -108,9 +107,10 @@ class ArtistViewController: UIViewController, UICollectionViewDataSource, UIColl
     ///
     func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: false);
-        var mediaItemC: MPMediaItemCollection = ((self.artistsList[indexPath.section] as NSMutableArray)[indexPath.row]) as MPMediaItemCollection;
+        var mediaItemC: MPMediaItemCollection = ((self.albumsList[indexPath.section] as NSMutableArray)[indexPath.row]) as MPMediaItemCollection;
         NSLog(mediaItemC.representativeItem.artist);
-//        var alert:UIAlertView = UIAlertView(title: mediaItemC.representativeItem.artist, message: mediaItemC.representativeItem.albumTitle, delegate: nil, cancelButtonTitle: "Cancel");
-//        alert.show();
+        //        var alert:UIAlertView = UIAlertView(title: mediaItemC.representativeItem.artist, message: mediaItemC.representativeItem.albumTitle, delegate: nil, cancelButtonTitle: "Cancel");
+        //        alert.show();
     }
+
 }
