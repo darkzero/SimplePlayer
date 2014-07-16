@@ -23,6 +23,7 @@
 		F7219838195DA34000E89983 /* defaultArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = F7219837195DA34000E89983 /* defaultArtwork.png */; };
 		F721983C195DAE1700E89983 /* defaultArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F721983B195DAE1700E89983 /* defaultArtwork@2x.png */; };
 		F721983E19628C6500E89983 /* CornerRadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F721983D19628C6500E89983 /* CornerRadiusView.swift */; };
+		F75E653A19765DBD00BA6B69 /* DismissSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75E653919765DBD00BA6B69 /* DismissSegue.swift */; };
 		F7648CA21965389F00636084 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7648CA11965389F00636084 /* AlbumViewController.swift */; };
 		F7648CA9196566EE00636084 /* SongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7648CA7196566EE00636084 /* SongsViewController.swift */; };
 		F7648CAA196566EE00636084 /* SongsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7648CA8196566EE00636084 /* SongsViewController.xib */; };
@@ -61,6 +62,7 @@
 		F7219837195DA34000E89983 /* defaultArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultArtwork.png; sourceTree = "<group>"; };
 		F721983B195DAE1700E89983 /* defaultArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "defaultArtwork@2x.png"; sourceTree = "<group>"; };
 		F721983D19628C6500E89983 /* CornerRadiusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerRadiusView.swift; sourceTree = "<group>"; };
+		F75E653919765DBD00BA6B69 /* DismissSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissSegue.swift; sourceTree = "<group>"; };
 		F7648CA11965389F00636084 /* AlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		F7648CA7196566EE00636084 /* SongsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongsViewController.swift; sourceTree = "<group>"; };
 		F7648CA8196566EE00636084 /* SongsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SongsViewController.xib; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				EF4EC2331947746200C5E85C /* CustomController */,
 				EF4EC22D1947603B00C5E85C /* MainViewController.swift */,
 				EF4EC2311947605400C5E85C /* SettingViewController.swift */,
+				F75E653919765DBD00BA6B69 /* DismissSegue.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 			files = (
 				F7648CA21965389F00636084 /* AlbumViewController.swift in Sources */,
 				F721983519598B5C00E89983 /* ButtonMenu.swift in Sources */,
+				F75E653A19765DBD00BA6B69 /* DismissSegue.swift in Sources */,
 				EF4EC2321947605400C5E85C /* SettingViewController.swift in Sources */,
 				F721983E19628C6500E89983 /* CornerRadiusView.swift in Sources */,
 				EF4EC22E1947603B00C5E85C /* MainViewController.swift in Sources */,
