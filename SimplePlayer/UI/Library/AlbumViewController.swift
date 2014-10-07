@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class AlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class AlbumViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     var albumsList:NSMutableArray;
     
@@ -18,7 +18,7 @@ class AlbumViewController: UIViewController, UICollectionViewDataSource, UIColle
 //        // Custom initialization
 //    }
     
-    init(coder aDecoder: NSCoder!) {
+    required init(coder aDecoder: NSCoder) {
         self.albumsList = MusicLibrary.defaultPlayer().getiPodAlbumList();
         super.init(coder: aDecoder)
     }
@@ -45,19 +45,20 @@ class AlbumViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     */
     
-    // #pragma mark - CollectionView dataSource
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView!) -> Int {
+// MARK: - CollectionView dataSource
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         NSLog("section count is %d", self.albumsList.count);
         return self.albumsList.count;
     }
     
-    func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         NSLog("row count is %d", self.albumsList[section].count);
         collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "ArtistCell");
         return self.albumsList[section].count;
     }
     
-    func collectionView(collectionView: UICollectionView!, viewForSupplementaryElementOfKind kind: String!, atIndexPath indexPath: NSIndexPath!) -> UICollectionReusableView! {
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath!) -> UICollectionReusableView {
         var sectionHeader:UICollectionReusableView = UICollectionReusableView();
         
         if (kind == UICollectionElementKindSectionHeader) {
@@ -72,14 +73,14 @@ class AlbumViewController: UIViewController, UICollectionViewDataSource, UIColle
         return sectionHeader;
     }
     
-    func collectionView(collectionView: UICollectionView!, cellForItemAtIndexPath indexPath: NSIndexPath!) -> UICollectionViewCell! {
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         NSLog("now on row %d", indexPath.row);
         let cellIdentifier = "ArtistCell"
         
         var cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellIdentifier, forIndexPath:indexPath) as? UICollectionViewCell;
         
-        if  !cell {
+        if  (cell == nil) {
             cell = UICollectionViewCell();
         }
         
@@ -99,12 +100,11 @@ class AlbumViewController: UIViewController, UICollectionViewDataSource, UIColle
         }
         (cell!.viewWithTag(998) as UILabel).text = mediaItemC.representativeItem.albumTitle;
         
-        return cell;
+        return cell!;
     }
     
-    ///
-    /// CollectionView delegate
-    ///
+// MARK: - CollectionView delegate
+    
     func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: false);
         var mediaItemC: MPMediaItemCollection = ((self.albumsList[indexPath.section] as NSMutableArray)[indexPath.row]) as MPMediaItemCollection;

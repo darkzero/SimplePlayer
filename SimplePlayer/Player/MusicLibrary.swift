@@ -11,7 +11,7 @@ import MediaPlayer
 
 class MusicLibrary: NSObject {
     
-    @required init() {
+    required override init() {
         super.init();
     }
     
@@ -87,11 +87,12 @@ class MusicLibrary: NSObject {
         for ( var i = 0 ; i < sectionCount ; i++ ) {
             ret.addObject(NSMutableArray.array());
         }
-        
-        for item:MPMediaItemCollection! in inputArray {
-            var index:NSInteger = collation.sectionForObject(item.representativeItem, collationStringSelector: selector);
-            ret.objectAtIndex(index).addObject(item);
-        }
+
+        // TODO:
+//        for (var item:MPMediaItemCollection) in inputArray as [MPMediaItemCollection] {
+//            var index:NSInteger = collation.sectionForObject(item.representativeItem, collationStringSelector: selector);
+//            ret.objectAtIndex(index).addObject(item);
+//        }
         
         return ret;
     }
@@ -113,7 +114,7 @@ class MusicLibrary: NSObject {
         for item : AnyObject in tempArray {
             if ( item is MPMediaItem ) {
                 let temp = item as MPMediaItem;
-                if ( temp.mediaType.value != MPMediaType.Music.value ) {
+                if ( temp.mediaType != MPMediaType.Music ) {
                     continue;
                 }
                 result.addObject(item);

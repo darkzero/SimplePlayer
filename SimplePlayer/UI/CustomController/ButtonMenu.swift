@@ -57,7 +57,7 @@ class ButtonMenu: UIView {
         self.location = _location;
         self.direction = _direction;
         self.closeImage = _closeImage;
-        if ( _openImage != nil ) {
+        if ( _openImage.length > 0 ) {
             self.openImage = _openImage;
         }
         else {
@@ -83,21 +83,25 @@ class ButtonMenu: UIView {
         // main button
         self.createMainButtonCloseImage(_closeImage, OpenImage:_openImage);
     }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func getFrameWithLocation(location:ButtonMenuLocation) -> CGRect {
         var rect:CGRect;
         switch location {
             case ButtonMenuLocation.RightBottom:
                 rect = CGRect(
-                    x: self.superview.frame.size.width-BUTTON_DIAMETER-PADDING,
-                    y: self.superview.frame.size.height - BUTTON_DIAMETER - PADDING,
+                    x: self.superview!.frame.size.width-BUTTON_DIAMETER-PADDING,
+                    y: self.superview!.frame.size.height - BUTTON_DIAMETER - PADDING,
                     width: BUTTON_DIAMETER,
                     height: BUTTON_DIAMETER);
                 break;
             case ButtonMenuLocation.LeftBottom:
                 rect = CGRect(
                     x: PADDING,
-                    y: self.superview.frame.size.height - BUTTON_DIAMETER - PADDING,
+                    y: self.superview!.frame.size.height - BUTTON_DIAMETER - PADDING,
                     width: BUTTON_DIAMETER,
                     height: BUTTON_DIAMETER);
                 break;
@@ -110,7 +114,7 @@ class ButtonMenu: UIView {
                 break;
             case ButtonMenuLocation.RightTop:
                 rect = CGRect(
-                    x: self.superview.frame.size.width-BUTTON_DIAMETER-PADDING,
+                    x: self.superview!.frame.size.width-BUTTON_DIAMETER-PADDING,
                     y: PADDING,
                     width: BUTTON_DIAMETER,
                     height: BUTTON_DIAMETER);
@@ -118,7 +122,7 @@ class ButtonMenu: UIView {
             default:
                 rect = CGRect(
                     x: PADDING,
-                    y: self.superview.frame.size.height - BUTTON_DIAMETER - PADDING,
+                    y: self.superview!.frame.size.height - BUTTON_DIAMETER - PADDING,
                     width: BUTTON_DIAMETER,
                     height: BUTTON_DIAMETER);
                 break;
@@ -216,7 +220,7 @@ class ButtonMenu: UIView {
         
         self.frame = self.frameOpen;
         
-        for subview:UIView! in self.subviews {
+        for (var subview:UIView) in self.subviews as [UIView] {
             var tag = subview.tag;
             var targetFrame:CGRect = self.calcButtonFrame(tag-BUTTON_TAG_BASE);
             subview.frame = targetFrame;
@@ -240,7 +244,7 @@ class ButtonMenu: UIView {
         
         self.frame = self.frameClose;
         
-        for subview:UIView! in self.subviews {
+        for subview:UIView in self.subviews as [UIView] {
             var tag = subview.tag;
             var targetFrame:CGRect = CGRectMake(0, 0, subview.frame.size.width, subview.frame.size.height);
             subview.frame = targetFrame;

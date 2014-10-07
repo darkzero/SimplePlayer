@@ -12,22 +12,24 @@ import Darwin
 
 let pi:CGFloat              = 3.1415926;
 
-
 //@IBDesignable class CustomView : UIView {
 //    @IBInspectable var borderColor: UIColor = UIColor.clearColor()
 //    @IBInspectable var borderWidth: CGFloat = 0
 //    @IBInspectable var cornerRadius: CGFloat = 0
 //}
 
-class AnnularProgress: UIView {
+@IBDesignable class AnnularProgress: UIView {
+    
+    @IBInspectable var outerRadius:CGFloat = 48.0;
+    @IBInspectable var innerRadius:CGFloat = 32.0;
     
     var currentValue : CGFloat  = 0;
     var maxValue : CGFloat      = 0;
     
-    var outerRadius:CGFloat     = 0;
-    var innerRadius:CGFloat     = 0;
+    //var outerRadius:CGFloat     = 0;
+    //var innerRadius:CGFloat     = 0;
 
-    init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         // Initialization code
     }
@@ -46,6 +48,9 @@ class AnnularProgress: UIView {
         NSLog("%f", self.outerRadius);
     }
 
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -76,7 +81,7 @@ class AnnularProgress: UIView {
         processPath.stroke();
     }
     
-    override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObject!, change: NSDictionary!, context: CMutableVoidPointer) {
+    override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObject!, change: [NSObject : AnyObject]!, context: UnsafeMutablePointer<Void>) {
         //
         self.setNeedsDisplay();
     }

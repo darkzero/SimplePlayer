@@ -11,16 +11,16 @@ import MediaPlayer
 
 class PlaylistViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet var songsTable : UITableView;
+    @IBOutlet var songsTable : UITableView!;
     var playlistList:NSMutableArray;
 
-    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         self.playlistList = MusicLibrary.defaultPlayer().getiPodPlaylists();
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
     }
     
-    init(coder aDecoder: NSCoder!) {
+    required init(coder aDecoder: NSCoder) {
         self.playlistList = MusicLibrary.defaultPlayer().getiPodPlaylists();
         super.init(coder: aDecoder)
     }
@@ -52,34 +52,34 @@ class PlaylistViewController: UIViewController, UITableViewDataSource, UITableVi
     */
 
     // #pragma mark - Navigation
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.playlistList.count;
     }
 
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cellIdentifier = "SongCell"
         
         var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell;
         
-        if  !cell {
+        if  (cell == nil) {
             cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: cellIdentifier);
         }
         
-        cell!.textLabel.text = (self.playlistList[indexPath.row] as MPMediaPlaylist).name;
+        cell!.textLabel!.text = (self.playlistList[indexPath.row] as MPMediaPlaylist).name;
         
         //NSLog("%@", self.playlistList[indexPath.row]);
         
-        return cell;
+        return cell!;
     }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //var mediaItem:MPMediaItem = self.playlistList[indexPath.row] as MPMediaItem;
         
         var songsVC:SongsViewController = SongsViewController(nibName: "SongsViewController", bundle: nil);
         
         var mCollection:MPMediaItemCollection = self.playlistList[indexPath.row] as MPMediaItemCollection;
         songsVC.itemCollection = mCollection;
-        self.navigationController.pushViewController(songsVC, animated: true);
+        self.navigationController?.pushViewController(songsVC, animated: true);
         
 //        var player = MusicPlayer.defaultPlayer();
 //        player.player.setQueueWithItemCollection(MPMediaItemCollection(items:self.getiPodPlaylists));

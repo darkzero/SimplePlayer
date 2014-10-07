@@ -56,7 +56,7 @@ class MusicPlayer: NSObject {
     
     var player:MPMusicPlayerController = MPMusicPlayerController.iPodMusicPlayer();
     
-    @required init() {
+    required override init() {
         super.init();
         // add notifications lisener
         self.player.beginGeneratingPlaybackNotifications();
@@ -102,7 +102,8 @@ class MusicPlayer: NSObject {
     
     var nowPlayingTitle : NSString {
     get {
-        if ( self.player.nowPlayingItem ) {
+        if (( self.player.nowPlayingItem ) != nil) {
+            //NSLog("title : %s", self.player.nowPlayingItem.title);
             return self.player.nowPlayingItem.title;
         }
         else {
@@ -113,7 +114,7 @@ class MusicPlayer: NSObject {
     
     var nowPlayingArtist : NSString {
     get {
-        if ( self.player.nowPlayingItem ) {
+        if (( self.player.nowPlayingItem ) != nil) {
             return self.player.nowPlayingItem.artist;
         }
         else {
@@ -124,8 +125,12 @@ class MusicPlayer: NSObject {
     
     var nowPlayingArtwork : UIImage {
     get {
-        if ( self.player.nowPlayingItem ) {
-            return MusicPlayer.defaultPlayer().player.nowPlayingItem.artwork.imageWithSize(CGSizeMake(200, 200));
+        if (( self.player.nowPlayingItem ) != nil) {
+            var pler:MPMusicPlayerController = MPMusicPlayerController.iPodMusicPlayer();
+            var item:MPMediaItem = self.player.nowPlayingItem;
+            var image:UIImage = item.artwork.imageWithSize(CGSizeMake(200, 200));
+            return image;
+            //return MusicPlayer.defaultPlayer().player.nowPlayingItem.artwork.imageWithSize(CGSizeMake(200, 200));
             //return UIImage(named: "defaultArtwork");
         }
         else {
@@ -136,7 +141,7 @@ class MusicPlayer: NSObject {
     
     var playbackDuration : CGFloat {
     get {
-        if ( self.player.nowPlayingItem ) {
+        if (( self.player.nowPlayingItem ) != nil) {
             return CGFloat(self.player.nowPlayingItem.playbackDuration);
         }
         else {

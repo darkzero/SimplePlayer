@@ -14,26 +14,26 @@ let SHUFFLE_MENU_TAG    = 1002;
 
 class MainViewController: UIViewController, ButtonMenuDelegate {
     
-    @IBOutlet var songNameLabel : UILabel;
-    @IBOutlet var artistNameLabel : UILabel;
-    @IBOutlet var songImgBgView : UIView;
-    @IBOutlet var songImgView : UIImageView;
-    @IBOutlet var playPauseButton : UIButton;
-    @IBOutlet var nextButton : UIButton;
-    @IBOutlet var prevButton : UIButton;
-    @IBOutlet var timeLabel : UILabel;
-    @IBOutlet var libButton : UIButton;
+    @IBOutlet var songNameLabel: UILabel!;
+    @IBOutlet var artistNameLabel : UILabel!;
+    @IBOutlet var songImgBgView : UIView!;
+    @IBOutlet var songImgView : UIImageView!;
+    @IBOutlet var playPauseButton : UIButton!;
+    @IBOutlet var nextButton : UIButton!;
+    @IBOutlet var prevButton : UIButton!;
+    @IBOutlet var timeLabel : UILabel!;
+    @IBOutlet var libButton : UIButton!;
     
     var progress:AnnularProgress;
     var pauseMask:UIView!;
 
-    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         self.progress = AnnularProgress(outerRadius: 125.0, innerRadius: 119.0);
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
     }
     
-    init(coder aDecoder: NSCoder!) {
+    required init(coder aDecoder: NSCoder) {
         self.progress = AnnularProgress(outerRadius: 125.0, innerRadius: 119.0);
         super.init(coder: aDecoder)
     }
@@ -42,11 +42,11 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
         super.viewDidLoad();
 
         // Do any additional setup after loading the view.
-        songNameLabel.text = "test";
+        songNameLabel!.text = "test";
         
         self.view.addSubview(progress);
         
-        self.progress.center        = self.songImgBgView.center;
+        self.progress.center        = self.songImgBgView!.center;
         self.progress.maxValue      = 100.0;
         self.progress.currentValue  = 0.0;
         
@@ -59,14 +59,14 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
             object  : nil);
         
         // round image background
-        self.songImgBgView.layer.cornerRadius = songImgBgView.frame.size.width/2;
-        self.songImgView.layer.cornerRadius = 100.0;
+        self.songImgBgView!.layer.cornerRadius = self.songImgBgView!.frame.size.width/2;
+        self.songImgView!.layer.cornerRadius = 100.0;
         
         // round buttons
-        self.playPauseButton.layer.cornerRadius = self.playPauseButton.frame.size.width/2;
-        self.nextButton.layer.cornerRadius = self.nextButton.frame.size.width/2;
-        self.prevButton.layer.cornerRadius = self.prevButton.frame.size.width/2;
-        self.libButton.layer.cornerRadius = self.libButton.frame.size.width/2;
+        self.playPauseButton!.layer.cornerRadius = self.playPauseButton!.frame.size.width/2;
+        self.nextButton!.layer.cornerRadius = self.nextButton!.frame.size.width/2;
+        self.prevButton!.layer.cornerRadius = self.prevButton!.frame.size.width/2;
+        self.libButton!.layer.cornerRadius = self.libButton!.frame.size.width/2;
         
         // start progress timer
         var progressTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "updateProgress", userInfo: nil, repeats: true);
@@ -133,11 +133,8 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
         MusicPlayer.defaultPlayer().player.skipToPreviousItem();
     }
     
-//    @IBAction func onLibraryButtonClicked(sender:UIButton) {
-//        //
-//    }
-    
     // MARK: - ddd
+    
     func updateProgress() {
         self.progress.currentValue   = MusicPlayer.defaultPlayer().currentPlaybackTime;
         // time label
@@ -221,7 +218,7 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
         self.progress.maxValue       = MusicPlayer.defaultPlayer().playbackDuration;
         self.progress.currentValue   = MusicPlayer.defaultPlayer().currentPlaybackTime;
         
-        if ( noti.userInfo["NotificationName"] as NSString == MPMusicPlayerControllerNowPlayingItemDidChangeNotification ) {
+        if ( noti.userInfo?["NotificationName"] as NSString == MPMusicPlayerControllerNowPlayingItemDidChangeNotification ) {
             self.songNameLabel.text = MusicPlayer.defaultPlayer().nowPlayingTitle;
             self.artistNameLabel.text = MusicPlayer.defaultPlayer().nowPlayingArtist;
             
@@ -232,7 +229,7 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
             self.songImgView.frame.size = CGSizeMake(200, 200);
         }
         
-        if ( noti.userInfo["NotificationName"] as NSString == MPMusicPlayerControllerPlaybackStateDidChangeNotification ) {
+        if ( noti.userInfo?["NotificationName"] as NSString! == MPMusicPlayerControllerPlaybackStateDidChangeNotification ) {
             // play/pause status
             self.pauseMask.hidden = (MusicPlayer.defaultPlayer().player.playbackState == MPMusicPlaybackState.Playing);
             if ( MusicPlayer.defaultPlayer().player.playbackState == MPMusicPlaybackState.Playing ) {
@@ -243,11 +240,10 @@ class MainViewController: UIViewController, ButtonMenuDelegate {
             }
         }
     }
-    
-//    ///
-//    /// KVO
-//    ///
-    override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObject!, change: NSDictionary!, context: CMutableVoidPointer) {
+
+// MARK: KVO
+    //override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObject!, change: NSDictionary!, context: CMutableVoidPointer) {
+    override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObject!, change: [NSObject : AnyObject]!, context: UnsafeMutablePointer<Void>) {
         NSLog("\(change)");
 //        if ( keyPath == "playbackState" ) {
 //            if ( object.tag == REPEAT_MENU_TAG ) {

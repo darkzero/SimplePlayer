@@ -19,7 +19,7 @@ class ArtistViewController: UIViewController, UICollectionViewDataSource, UIColl
 //        // Custom initialization
 //    }
     
-    init(coder aDecoder: NSCoder!) {
+    required init(coder aDecoder: NSCoder) {
         self.artistsList = MusicLibrary.defaultPlayer().getiPodArtistList();
         super.init(coder: aDecoder)
     }
@@ -46,19 +46,19 @@ class ArtistViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     */
     
-    // #pragma mark - CollectionView dataSource
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView!) -> Int {
+// MARK: - CollectionView dataSource
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         NSLog("section count is %d", self.artistsList.count);
         return self.artistsList.count;
     }
     
-    func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         NSLog("row count is %d", self.artistsList[section].count);
         collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "ArtistCell");
         return self.artistsList[section].count;
     }
-    
-    func collectionView(collectionView: UICollectionView!, viewForSupplementaryElementOfKind kind: String!, atIndexPath indexPath: NSIndexPath!) -> UICollectionReusableView! {
+
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         var sectionHeader:UICollectionReusableView = UICollectionReusableView();
         
         if (kind == UICollectionElementKindSectionHeader) {
@@ -72,15 +72,15 @@ class ArtistViewController: UIViewController, UICollectionViewDataSource, UIColl
         
         return sectionHeader;
     }
-    
-    func collectionView(collectionView: UICollectionView!, cellForItemAtIndexPath indexPath: NSIndexPath!) -> UICollectionViewCell! {
+
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         NSLog("now on row %d", indexPath.row);
         let cellIdentifier = "ArtistCell"
         
         var cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellIdentifier, forIndexPath:indexPath) as? UICollectionViewCell;
         
-        if  !cell {
+        if (cell == nil) {
             cell = UICollectionViewCell();
         }
         
@@ -100,7 +100,7 @@ class ArtistViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
         (cell!.viewWithTag(998) as UILabel).text = mediaItemC.representativeItem.artist;
         
-        return cell;
+        return cell!;
     }
     
     ///

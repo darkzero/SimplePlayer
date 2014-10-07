@@ -11,13 +11,17 @@ import MediaPlayer
 
 class SongsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet var songsTable:UITableView;
+    @IBOutlet var songsTable:UITableView!;
     
     var itemCollection:MPMediaItemCollection!;
 
-    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {
@@ -45,36 +49,36 @@ class SongsViewController: UIViewController, UITableViewDataSource, UITableViewD
     ///
     /// UITableViewDataSource
     ///
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.itemCollection.count;
     }
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cellIdentifier = "SongCell"
         
         var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell;
         
-        if  !cell {
+        if  ( cell == nil ) {
             cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: cellIdentifier);
         }
         
-        cell!.textLabel.text = (self.itemCollection.items[indexPath.row] as MPMediaItem).title;
+        cell!.textLabel!.text = (self.itemCollection.items[indexPath.row] as MPMediaItem).title;
         
         //NSLog("%@", self.playlistList[indexPath.row]);
         
-        return cell;
+        return cell!;
     }
     
     ///
     /// UITableViewDelegate
     ///
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //var mediaItem:MPMediaItem = self.playlistList[indexPath.row] as MPMediaItem;
         
         MusicPlayer.defaultPlayer().player.setQueueWithItemCollection(self.itemCollection);
         MusicPlayer.defaultPlayer().player.play();
         
-        self.dismissModalViewControllerAnimated(true);
+        self.dismissViewControllerAnimated(true, completion: nil);
     }
 
 }

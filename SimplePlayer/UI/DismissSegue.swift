@@ -16,6 +16,6 @@ class DismissSegue: UIStoryboardSegue {
 */
     override func perform() {
         var sourceViewController:UIViewController = self.sourceViewController as UIViewController;
-        sourceViewController.presentingViewController.dismissViewControllerAnimated(true, completion:nil);
+        sourceViewController.presentingViewController?.dismissViewControllerAnimated(true, completion:nil);
     }
 }
