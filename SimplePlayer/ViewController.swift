@@ -2,22 +2,17 @@
 //  ViewController.swift
 //  SimplePlayer
 //
-//  Created by darkzero on 14-6-11.
-//  Copyright (c) 2014年 darkzero. All rights reserved.
+//  Created by Yuhua Hu on 2019/06/08.
+//  Copyright © 2019 darkzero. All rights reserved.
 //
 
 import UIKit
 
 class ViewController: UIViewController {
-                            
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        // Do any additional setup after loading the view.
     }
 
 
