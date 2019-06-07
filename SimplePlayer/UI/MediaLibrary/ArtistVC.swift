@@ -1,5 +1,5 @@
 //
-//  MusicPlayer.swift
+//  ArtistViewController.swift
 //  SimplePlayer
 //
 //  Created by Lihua Hu on 2014/06/16.
@@ -7,9 +7,8 @@
 //
 
 import UIKit
-
-import AVFoundation
 import MediaPlayer
 
-class MusicPlayer: NSObject {
+class ArtistVC: UIViewController {
+    
 }
